@@ -1,6 +1,8 @@
 import discord
 from discord import FFmpegPCMAudio
 import yaml
+import aiohttp
+import asyncio
 
 with open('config.yaml', 'r') as f:
     config = yaml.safe_load(f)
@@ -11,9 +13,28 @@ intents.voice_states = True
 
 bot = discord.Client(intents=intents)
 
+async def get_now_playing():
+    url = config["icecast_status_url"]
+
+    async with aiohttp.ClientSession() as session:
+        async with session.get(url) as resp:
+            status_json = await resp.json()
+
+    return status_json["icestats"]["source"]["title"]
+
+async def update_status():
+    current_status = None
+    while True:
+        now_playing = await get_now_playing()
+        if now_playing != current_status:
+            await bot.change_presence(activity=discord.Game(name=now_playing))
+            current_status = now_playing
+        await asyncio.sleep(1)  # update status every second if changed
+
 @bot.event
 async def on_ready():
     print('Bot is ready.')
+    bot.loop.create_task(update_status())
 
 @bot.event
 async def on_voice_state_update(member, before, after):
