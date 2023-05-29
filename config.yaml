@@ -1,0 +1,4 @@
+discord_bot_key: "your-discord-bot-key"
+guild_id: "your-guild-id"
+voice_channel_id: "your-voice-channel-id"
+icecast_url: "your-icecast-url"
