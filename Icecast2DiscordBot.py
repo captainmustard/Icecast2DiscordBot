@@ -31,6 +31,13 @@ async def update_status():
             current_status = now_playing
         await asyncio.sleep(1)  # update status every second if changed
 
+async def connect_and_play(channel, icecast_url):
+    try:
+        voice_client = await channel.connect()
+        voice_client.play(FFmpegPCMAudio(icecast_url))
+    except Exception as e:
+        print(f"Error: {e}")
+
 @bot.event
 async def on_ready():
     print('Bot is ready.')
@@ -52,36 +59,21 @@ async def on_voice_state_update(member, before, after):
 
     # If someone joined the configured voice channel
     if after.channel == channel:
-        print(f'Someone joined the channel: {channel.name} (ID: {channel.id})')
+        if len(after.channel.members) <= 1:  # Just the bot
+            return
 
         # If the bot is not already in the channel, join it and start playing
         if not any(voice_client.channel == channel for voice_client in bot.voice_clients):
-            try:
-                voice_client = await channel.connect()
-                voice_client.play(FFmpegPCMAudio(config["icecast_url"]))
-            except Exception as e:
-                print(f"An error occurred: {e}")
+            await connect_and_play(channel, config["icecast_url"])
 
     # If someone left the configured voice channel
     elif before.channel == channel:
-        # Wait for a second to allow the members list to update
-        await asyncio.sleep(1)
+        if len(before.channel.members) > 1:  # Someone other than the bot is still in the channel
+            return
 
         # If the bot is the only one left in the channel, disconnect
-        if len(before.channel.members) == 1:
-            for voice_client in bot.voice_clients:
-                if voice_client.channel == channel:
-                    await voice_client.disconnect()
-
-    # If someone left any channel
-    elif before.channel is not None:
-        # Wait for a second to allow the members list to update
-        await asyncio.sleep(1)
-
-        # If the bot is the only one left in the channel, disconnect
-        if len(before.channel.members) == 1:
-            for voice_client in bot.voice_clients:
-                if voice_client.channel == before.channel:
-                    await voice_client.disconnect()
+        for voice_client in bot.voice_clients:
+            if voice_client.channel == channel:
+                await voice_client.disconnect()
 
 bot.run(config["discord_bot_key"])
