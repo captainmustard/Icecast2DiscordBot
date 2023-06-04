@@ -3,11 +3,6 @@ This project includes a Discord bot capable of joining a voice channel and strea
 
 I created this specifically to stream the audio from [SDRtrunk](https://github.com/DSheirer/sdrtrunk) to my discord server.
 
-## Table of Contents
-- [Installation](#installation)
-- [Configuration](#configuration)
-- [Usage](#usage)
-
 ## Installation
 
 Install required packages using pip: 
