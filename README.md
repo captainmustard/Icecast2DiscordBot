@@ -1,5 +1,5 @@
 # Icecast2DiscordBot
-This project includes a Discord bot capable of joining a voice channel and streaming music from an Icecast server. The bot will automatically join a voice channel when a user enters and start streaming, and leave when no users are present. The bot's Discord status will reflect the currently playing track from the Icecast stream.
+This project includes a Discord bot capable of joining a voice channel and streaming music from an Icecast server. The bot's Discord status will reflect the currently playing track from the Icecast stream.
 
 I created this specifically to stream the audio from [SDRtrunk](https://github.com/DSheirer/sdrtrunk) to my discord server.
 
