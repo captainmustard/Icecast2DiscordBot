@@ -3,10 +3,17 @@ This project includes a Discord bot capable of joining a voice channel and strea
 
 I created this specifically to stream the audio from [SDRtrunk](https://github.com/DSheirer/sdrtrunk) to my discord server.
 
+## Table of Contents
+- [Installation](#installation)
+- [Configuration](#configuration)
+- [Usage](#usage)
+
+## Installation
+
 Install required packages using pip: 
-    ```
-    pip install -r requirements.txt
-    ```
+```bash
+pip install -r requirements.txt
+```
 
 ## Configuration
 
@@ -19,3 +26,7 @@ You will need to configure the bot before use. This is done using the `config.ya
 - `icecast_status_url`: The URL to the `status-json.xsl` endpoint of your Icecast server.
 
 Replace the placeholders with your actual data.
+
+## Usage
+
+Once the bot is configured and running, it will automatically join the specified voice channel when a user enters and start streaming music from the Icecast server. The bot will leave the channel when no users are present.
