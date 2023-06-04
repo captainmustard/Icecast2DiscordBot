@@ -1,3 +1,4 @@
 discord.py
-PyYAML
 aiohttp
+pyyaml
+ffmpeg-python
