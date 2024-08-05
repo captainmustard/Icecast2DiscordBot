@@ -9,6 +9,9 @@ Install required packages using pip:
 ```bash
 pip install -r requirements.txt
 ```
+on linux install ffmpeg using your package manager
+
+on windows in the terminal run: ```winget install ffmpeg``` and then close and re-open your terminal.
 
 ## Configuration
 
