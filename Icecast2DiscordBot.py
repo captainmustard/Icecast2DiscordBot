@@ -63,6 +63,19 @@ async def get_now_playing():
     else:
         return "Unknown"
 
+# Ability to change icecast station currently playing with a slash command
+@bot.slash_command(name="play", description="Change icecast station")
+async def change_station(ctx, station_url: str):
+    # Update config["icecast_url"] with a new url
+    config["icecast_url"] = station_url
+
+    # Call Connnect_and_play with the new url
+    await connect_and_play(ctx.voice_channel, config["icecast_url"])
+
+    # Respond with the chossen url
+    await ctx.respond(f"Now playing: {station_url}")
+
+
 async def update_status():
     current_status = None
     while True:
